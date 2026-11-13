@@ -61,7 +61,8 @@ export default async (req) => {
   if (req.method === "GET") {
     const entries = await all(store);
     await backfillLine(store, entries);
-    return json({ entries });
+    // 一覧の中身は管理者にだけ返す。一般には人数のみ
+    return json(isAdmin ? { count: entries.length, entries } : { count: entries.length, entries: [] });
   }
 
   if (req.method === "POST") {
@@ -88,7 +89,7 @@ export default async (req) => {
     const entry = { id, name, line, comment, createdAt };
     await store.setJSON(id, entry);
     await toSheet([entry]);
-    return json({ ok: true, id });
+    return json({ ok: true, id, no: blobs.length + 1 });
   }
 
   if (req.method === "DELETE") {

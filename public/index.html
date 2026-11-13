@@ -285,18 +285,18 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
 
 <main class="wrap">
   <section aria-labelledby="h-list">
-    <h2 id="h-list">参加者一覧 <em>GUEST LIST</em></h2>
+    <h2 id="h-list">申し込み状況 <em>ENTRIES</em></h2>
     <p class="count" aria-live="polite"><b id="count">–</b><span>名が申し込み済み</span></p>
     <ol class="list" id="list"></ol>
     <button type="button" class="del" id="resync" hidden style="margin:0 0 12px;padding:8px 14px;font-size:14px">スプレッドシートへ全件を送り直す</button>
-    <p class="note" id="list-note">参加者一覧を読み込んでいます…</p>
+    <p class="note" id="list-note" hidden></p>
   </section>
 
   <section class="panel" aria-labelledby="h-form">
     <h2 id="h-form">申し込みフォーム <em>ENTRY</em></h2>
 
     <form id="entry-form" novalidate>
-      <p>お名前・LINEの名前・コメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。入力した内容は参加者一覧に表示されます。</p>
+      <p>お名前・LINEの名前・コメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。入力した内容は主催者だけが確認します。</p>
       <label for="f-name">お名前</label>
       <input type="text" id="f-name" name="name" maxlength="40" autocomplete="name" placeholder="例:山田 太郎" required>
       <label for="f-line">LINEの名前<small>LINEで表示されているお名前</small></label>
@@ -314,7 +314,7 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
         <div class="t-main"><small>ADMIT ONE</small><b>GEE TWO LIVE</b><span>2026.11.19 THU ／ OPEN 18:00 START 19:00</span><p class="who" id="done-who"></p></div>
         <div class="t-no"><i>No.</i><em id="t-no">–</em></div>
       </div></div>
-      <p>お申し込みを受け付けました。参加者一覧に反映されています。当日、会場でお待ちしています。</p>
+      <p>お申し込みを受け付けました。当日、会場でお待ちしています。</p>
       <button class="btn ghost" id="again" type="button">続けて別の方を申し込む</button>
     </div>
   </section>
@@ -460,7 +460,7 @@ window.Snd=(function(){
   var form=$('entry-form'), nameEl=$('f-name'), lineEl=$('f-line'), cmtEl=$('f-comment'), btn=$('f-submit'), msg=$('f-msg');
   var done=$('done'), doneWho=$('done-who');
 
-  var lastId=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
+  var total=0, lastId=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
 
   function pad(n){ n=String(n); return n.length<3 ? ('00'+n).slice(-3) : n; }
   function fmt(iso){
@@ -469,7 +469,7 @@ window.Snd=(function(){
   }
 
   function render(){
-    countEl.textContent = entries.length; $('bar-count').textContent = entries.length;
+    countEl.textContent = total; $('bar-count').textContent = total;
     listEl.textContent='';
     entries.forEach(function(e,i){
       var li=document.createElement('li'); li.className='stub';
@@ -549,7 +549,8 @@ window.Snd=(function(){
   function load(){
     return api('GET',null,'',adminKey?{'x-admin-key':adminKey}:null).then(function(j){
       entries=(j.entries||[]).map(function(x){ return {id:String(x.id),name:String(x.name||''),line:String(x.line||''),comment:String(x.comment||''),createdAt:x.createdAt}; });
-      render(); note(entries.length ? '' : 'まだ申し込みはありません。最初のお一人になりませんか。');
+      total=(typeof j.count==='number') ? j.count : entries.length;
+      render(); note(adminKey ? (entries.length ? '' : 'まだ申し込みはありません。') : '');
     });
   }
 
@@ -562,7 +563,7 @@ window.Snd=(function(){
     btn.disabled=true; btn.textContent='送信中…'; msg.textContent='';
     save({name:name.slice(0,40), line:lineEl.value.replace(/\s+/g,' ').trim().slice(0,40), comment:comment.slice(0,140), website:$('f-website').value})
       .then(function(ref){
-        lastId=ref && ref.id; $('t-no').textContent='–'; load().catch(function(){});
+        lastId=ref && ref.id; $('t-no').textContent=(ref && ref.no) ? pad(ref.no) : '–'; load().catch(function(){});
         btn.disabled=false; btn.textContent='この内容で申し込む';
         try{ localStorage.setItem('geetwo-last-name',name); }catch(e){}
         showDone(name);
@@ -580,7 +581,8 @@ window.Snd=(function(){
     rs.disabled=true; rs.textContent='送信中…';
     api('POST',{action:'resync'},'',{'x-admin-key':adminKey}).then(function(j){ rs.textContent='送信しました('+(j.sent||0)+'件)'; }).catch(function(e){ rs.textContent=(e.code==='no_webhook')?'スプレッドシート未設定です':'送信できませんでした'; }).then(function(){ setTimeout(function(){ rs.disabled=false; rs.textContent='スプレッドシートへ全件を送り直す'; },4000); });
   }); }
-  load().catch(function(){ note('参加者一覧を読み込めませんでした。少し待ってから開き直してください。'); });
+  if(adminKey){ $('h-list').firstChild.textContent='参加者一覧(管理用) '; }
+  load().catch(function(){ if(adminKey) note('参加者一覧を読み込めませんでした。少し待ってから開き直してください。'); });
   setInterval(function(){ if(!document.hidden) load().catch(function(){}); },8000);
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) load().catch(function(){}); });
 })();
