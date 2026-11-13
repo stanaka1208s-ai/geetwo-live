@@ -282,6 +282,7 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
     <h2 id="h-list">参加者一覧 <em>GUEST LIST</em></h2>
     <p class="count" aria-live="polite"><b id="count">–</b><span>名が申し込み済み</span></p>
     <ol class="list" id="list"></ol>
+    <button type="button" class="del" id="resync" hidden style="margin:0 0 12px;padding:8px 14px;font-size:14px">スプレッドシートへ全件を送り直す</button>
     <p class="note" id="list-note">参加者一覧を読み込んでいます…</p>
   </section>
 
@@ -289,9 +290,11 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
     <h2 id="h-form">申し込みフォーム <em>ENTRY</em></h2>
 
     <form id="entry-form" novalidate>
-      <p>お名前とコメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。</p>
+      <p>お名前・LINEの名前・コメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。LINEの名前は参加者一覧には表示されません。</p>
       <label for="f-name">お名前</label>
       <input type="text" id="f-name" name="name" maxlength="40" autocomplete="name" placeholder="例:山田 太郎" required>
+      <label for="f-line">LINEの名前<small>LINEで表示されているお名前</small></label>
+      <input type="text" id="f-line" name="line" maxlength="40" autocomplete="off" placeholder="例:たろう">
       <label for="f-comment">コメント<small>会社名・ご所属・ひとことなど</small></label>
       <textarea id="f-comment" name="comment" maxlength="140" placeholder="例:株式会社〇〇"></textarea>
       <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
@@ -315,17 +318,16 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
 
 <section class="wrap prof" aria-labelledby="h-prof">
   <h2 id="h-prof">高谷秀司 <em>PROFILE</em></h2>
-  <p class="lead">ブルースギタリスト／和琴奏者。大阪府出身。</p>
+  <p class="lead">ブルースギタリスト／和琴奏者。シドニー・オペラハウスなど国内外で公演。</p>
   <ul class="career">
     <li><b>1985</b><span>アメリカへ渡り、ラリー・カールトンらと共演</span></li>
     <li><b>2002</b><span>マサ大家とのデュオで欧米ツアーを開始</span></li>
-    <li><b>2006</b><span>シドニー・オペラハウスで組曲「日本の四季」を演奏</span></li>
-    <li><b>2007</b><span>尺八の山本邦山と「大吟醸」を結成</span></li>
     <li><b>2010</b><span>ロサンゼルスのNAMMショーに出演、豪州ツアー</span></li>
+    <li><b>2013</b><span>小川紗綾佳とユニット「RODORODO」を結成</span></li>
+    <li><b>2014</b><span>作曲家・江藤雅樹とユニット「HowZan」を結成</span></li>
   </ul>
   <div class="links">
     <a href="https://www.bigmade-music.com/takatanihideshi/profile.html" target="_blank" rel="noopener">公式プロフィール<small>bigmade-music.com</small></a>
-    <a href="https://kallos-entertainment.com/?ac=proe&id=163" target="_blank" rel="noopener">所属事務所プロフィール<small>カロスエンターテイメント</small></a>
   </div>
 </section>
 
@@ -440,7 +442,7 @@ window.Snd=(function(){
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var listEl=$('list'), noteEl=$('list-note'), countEl=$('count');
-  var form=$('entry-form'), nameEl=$('f-name'), cmtEl=$('f-comment'), btn=$('f-submit'), msg=$('f-msg');
+  var form=$('entry-form'), nameEl=$('f-name'), lineEl=$('f-line'), cmtEl=$('f-comment'), btn=$('f-submit'), msg=$('f-msg');
   var done=$('done'), doneWho=$('done-who');
 
   var lastId=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
@@ -463,6 +465,7 @@ window.Snd=(function(){
       var body=document.createElement('div'); body.className='body';
       var nm=document.createElement('div'); nm.className='name'; nm.textContent=e.name||'(お名前なし)';
       body.appendChild(nm);
+      if(adminKey && e.line){ var ln=document.createElement('div'); ln.className='cmt'; ln.textContent='LINE: '+e.line; body.appendChild(ln); }
       if(e.comment){ var c=document.createElement('div'); c.className='cmt'; c.textContent=e.comment; body.appendChild(c); }
       var meta=document.createElement('div'); meta.className='meta';
       var t=document.createElement('span'); t.textContent=fmt(e.createdAt); meta.appendChild(t);
@@ -517,7 +520,7 @@ window.Snd=(function(){
     tickCd(); setInterval(tickCd,1000);
   })();
   $('again').addEventListener('click',function(){
-    done.hidden=true; form.hidden=false; nameEl.value=''; cmtEl.value=''; msg.textContent=''; nameEl.focus();
+    done.hidden=true; form.hidden=false; nameEl.value=''; lineEl.value=''; cmtEl.value=''; msg.textContent=''; nameEl.focus();
   });
 
   var adminKey=''; try{ adminKey=new URLSearchParams(location.search).get('admin')||''; }catch(e){}
@@ -529,8 +532,8 @@ window.Snd=(function(){
   }
   function save(data){ return api('POST',data); }
   function load(){
-    return api('GET').then(function(j){
-      entries=(j.entries||[]).map(function(x){ return {id:String(x.id),name:String(x.name||''),comment:String(x.comment||''),createdAt:x.createdAt}; });
+    return api('GET',null,'',adminKey?{'x-admin-key':adminKey}:null).then(function(j){
+      entries=(j.entries||[]).map(function(x){ return {id:String(x.id),name:String(x.name||''),line:String(x.line||''),comment:String(x.comment||''),createdAt:x.createdAt}; });
       render(); note(entries.length ? '' : 'まだ申し込みはありません。最初のお一人になりませんか。');
     });
   }
@@ -542,7 +545,7 @@ window.Snd=(function(){
     var comment=cmtEl.value.trim();
     if(!name){ msg.textContent='お名前を入力してください。'; nameEl.focus(); return; }
     btn.disabled=true; btn.textContent='送信中…'; msg.textContent='';
-    save({name:name.slice(0,40), comment:comment.slice(0,140), website:$('f-website').value})
+    save({name:name.slice(0,40), line:lineEl.value.replace(/\s+/g,' ').trim().slice(0,40), comment:comment.slice(0,140), website:$('f-website').value})
       .then(function(ref){
         lastId=ref && ref.id; $('t-no').textContent='–'; load().catch(function(){});
         btn.disabled=false; btn.textContent='この内容で申し込む';
@@ -558,6 +561,10 @@ window.Snd=(function(){
       });
   });
 
+  if(adminKey){ var rs=$('resync'); rs.hidden=false; rs.addEventListener('click',function(){
+    rs.disabled=true; rs.textContent='送信中…';
+    api('POST',{action:'resync'},'',{'x-admin-key':adminKey}).then(function(j){ rs.textContent='送信しました('+(j.sent||0)+'件)'; }).catch(function(e){ rs.textContent=(e.code==='no_webhook')?'スプレッドシート未設定です':'送信できませんでした'; }).then(function(){ setTimeout(function(){ rs.disabled=false; rs.textContent='スプレッドシートへ全件を送り直す'; },4000); });
+  }); }
   load().catch(function(){ note('参加者一覧を読み込めませんでした。少し待ってから開き直してください。'); });
   setInterval(function(){ if(!document.hidden) load().catch(function(){}); },8000);
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) load().catch(function(){}); });
