@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="2026年11月19日(木) Gee Two LIVE at BLUES ALLEY JAPAN。高谷秀司先生ライブの参加申し込みページです。">
+<meta property="og:title" content="Gee Two LIVE 参加申し込み">
+<meta property="og:description" content="11/19(木) 18:00開場 19:00開演 BLUES ALLEY JAPAN(目黒)。お名前とコメントだけで申し込めます。">
+<meta property="og:image" content="/hero-m.jpg">
+<meta property="og:type" content="website">
+<title>Gee Two LIVE 参加申し込み</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Zen+Kaku+Gothic+Antique:wght@900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a gig poster that turns into a guest list — photo band, poster type, then ticket-stub rows. Single dark theme by choice (live house). */
+:root{
+  color-scheme: dark;
+  --ink:#0b0a08;        /* stage black */
+  --stage:#17130d;      /* warm panel */
+  --line:#3a3226;       /* hairlines */
+  --paper:#f3ecdc;      /* text */
+  --mute:#c2b8a3;       /* secondary text */
+  --yellow:#ffe500;     /* flyer yellow */
+  --pink:#ff3f9c;       /* flyer magenta */
+  --f-poster:"Anton","Zen Kaku Gothic New",Impact,sans-serif;
+  --f-display:"Zen Kaku Gothic Antique","Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+}
+@font-face{font-family:"Noto Music";src:url("noto-music.woff2") format("woff2");font-display:swap}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:19px;line-height:1.7;font-weight:700;}
+#score{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+a{color:var(--yellow)}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:#000}
+.hero img{display:block;width:100%;height:auto;filter:sepia(.22)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(11,10,8,0),rgba(11,10,8,.95))}
+.hero-tag{position:absolute;z-index:2;right:14px;bottom:12px;background:var(--pink);color:#fff;font-family:var(--f-poster);letter-spacing:.08em;padding:2px 12px;font-size:17px;transform:rotate(-2deg)}
+.title-block{position:relative;z-index:2;margin-top:14px;padding-bottom:22px}
+h1{font-family:var(--f-poster);font-weight:400;color:var(--yellow);font-size:clamp(64px,17vw,176px);line-height:.88;margin:0;letter-spacing:.005em;text-transform:uppercase;text-shadow:0 3px 0 #000}
+h1 span{color:var(--paper)}
+.sub{font-family:var(--f-display);font-size:clamp(21px,3.6vw,28px);margin:14px 0 0;line-height:1.4;text-wrap:balance}
+.sub small{display:block;font-family:var(--f-body);font-weight:900;font-size:16px;color:var(--mute);letter-spacing:.06em;margin-top:4px}
+
+/* ---------- facts ---------- */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:2px solid var(--paper);margin:26px 0 0}
+.fact{padding:14px 16px;border-right:2px solid var(--paper)}
+.fact:last-child{border-right:0}
+.fact dt{font-size:14px;font-weight:900;letter-spacing:.14em;color:var(--mute)}
+.fact dd{margin:2px 0 0;font-family:var(--f-poster);font-size:clamp(30px,4.8vw,42px);line-height:1.1;font-variant-numeric:tabular-nums}
+.fact dd small{font-family:var(--f-body);font-weight:900;font-size:15px;margin-left:4px}
+.fact.hot{background:var(--yellow);color:#111}
+.fact.hot dt{color:#111}
+.feenote{font-size:15px;color:var(--mute);margin:10px 0 0}
+.cities{display:flex;flex-wrap:wrap;gap:4px 14px;margin:22px 0 0;padding:0;list-style:none;font-family:var(--f-poster);font-size:17px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.cities li:first-child{color:var(--pink)}
+.cities li+li::before{content:"●";font-size:8px;vertical-align:middle;margin-right:14px;color:var(--pink)}
+
+/* ---------- main grid ---------- */
+main{display:grid;padding-top:14px!important;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:36px;padding-top:44px;padding-bottom:56px;align-items:start}
+h2{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0 0 14px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+h2 em{font-style:normal;font-family:var(--f-poster);font-size:16px;letter-spacing:.14em;color:var(--pink)}
+
+/* guest list */
+.count{display:flex;align-items:flex-end;gap:10px;margin:0 0 18px;border-bottom:2px solid var(--paper);padding-bottom:10px}
+.count b{font-family:var(--f-poster);font-weight:400;font-size:72px;line-height:.85;color:var(--yellow);font-variant-numeric:tabular-nums}
+.count span{font-weight:900;padding-bottom:4px}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.stub{display:grid;grid-template-columns:70px minmax(0,1fr);background:var(--stage);border:1px solid var(--line)}
+.stub .no{display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:2px dashed var(--line);font-family:var(--f-poster);color:var(--yellow);font-size:28px;line-height:1;font-variant-numeric:tabular-nums;padding:10px 0}
+.stub .no i{font-style:normal;font-size:12px;letter-spacing:.16em;color:var(--mute);margin-bottom:3px}
+.stub .body{padding:10px 14px;min-width:0}
+.stub .name{font-weight:900;font-size:21px;line-height:1.35;overflow-wrap:anywhere}
+.stub .name::after{content:" 様";font-weight:700;font-size:15px;color:var(--mute)}
+.stub .cmt{color:var(--paper);opacity:.85;font-size:16px;line-height:1.55;overflow-wrap:anywhere;margin-top:2px}
+.stub .meta{display:flex;gap:12px;align-items:center;margin-top:6px;font-size:14px;color:var(--mute);font-variant-numeric:tabular-nums}
+.stub.new{border-color:var(--yellow);animation:pop .7s ease-out}
+@keyframes pop{from{transform:translateY(-6px);background:#3a3200}to{transform:none}}
+.del{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mute);font:inherit;font-size:14px;padding:2px 10px;cursor:pointer}
+.del:hover{border-color:var(--pink);color:var(--pink)}
+.del.sure{background:var(--pink);border-color:var(--pink);color:#fff}
+.note{border:1px dashed var(--line);padding:16px;color:var(--mute);font-size:16px}
+
+/* form */
+.panel{background:var(--paper);color:#14110b;padding:22px 20px 24px;position:sticky;top:16px;box-shadow:8px 8px 0 var(--pink)}
+.panel h2{color:#14110b}
+.panel h2 em{color:#b3005e}
+.panel p{margin:0 0 14px;font-size:16px;line-height:1.6}
+label{display:block;font-weight:900;font-size:16px;margin:14px 0 6px}
+label small{font-weight:700;color:#6a604e;margin-left:6px}
+input[type=text],textarea{display:block;width:100%;font:inherit;font-size:20px;min-height:52px;color:#14110b;background:#fff;border:2px solid #14110b;border-radius:0;padding:11px 12px}
+textarea{min-height:92px;resize:vertical}
+input:focus-visible,textarea:focus-visible{outline:3px solid #b3005e;outline-offset:0}
+.btn{display:block;width:100%;margin-top:18px;font-family:var(--f-display);font-size:22px;color:#111;background:var(--yellow);border:2px solid #14110b;padding:14px 12px;cursor:pointer;box-shadow:4px 4px 0 #14110b;transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #14110b}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #14110b}
+.btn[disabled]{opacity:.55;cursor:default;transform:none;box-shadow:4px 4px 0 #14110b}
+.btn.ghost{background:transparent;font-family:var(--f-body);font-weight:900;font-size:17px;box-shadow:none}
+.msg{margin:12px 0 0;font-size:16px;font-weight:900;color:#a3001f;min-height:1.4em}
+.done{text-align:center;padding:10px 0 2px}
+.done .big{font-family:var(--f-poster);white-space:nowrap;font-size:clamp(36px,11vw,54px);line-height:1;color:#b3005e;letter-spacing:.03em}
+.done .who{font-weight:900;font-size:22px;margin:10px 0 4px;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+/* 申し込みフォーム: 黒地に黄色のチケット型 */
+.panel{background:#000;color:var(--paper);border:2px solid var(--yellow);padding:0 0 24px;box-shadow:0 0 26px rgba(255,229,0,.28),7px 7px 0 var(--pink)}
+.panel h2{margin:0;padding:12px 18px;background:var(--yellow);color:#111;font-size:25px;align-items:center;justify-content:space-between}
+.panel h2 em{color:#111;font-size:17px;border:2px solid #111;padding:0 10px;letter-spacing:.16em}
+.panel form,.panel .done{padding:18px 18px 0;position:relative}
+.panel form::before,.panel .done::before{content:"";position:absolute;left:0;right:0;top:0;border-top:3px dashed var(--yellow);opacity:.0}
+.panel p{color:var(--paper)}
+.panel .ticket p{color:#111}
+.panel label{font-family:var(--f-display);font-weight:400;font-size:18px;color:var(--yellow);margin:18px 0 8px;letter-spacing:.04em}
+.panel label small{font-family:var(--f-body);font-weight:700;color:var(--mute);font-size:14px}
+.panel input[type=text],.panel textarea{background:var(--stage);color:var(--paper);border:2px solid var(--paper);border-radius:0;padding:13px 14px;font-weight:700;caret-color:var(--yellow)}
+.panel input::placeholder,.panel textarea::placeholder{color:#7d735f}
+.panel input:focus-visible,.panel textarea:focus-visible{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,229,0,.28),0 0 18px rgba(255,229,0,.35)}
+.panel .btn{background:var(--yellow);color:#111;border:2px solid var(--yellow);font-size:22px;padding:16px 12px;box-shadow:5px 5px 0 var(--pink);margin-top:22px}
+.panel .btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--pink)}
+.panel .btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--pink)}
+.panel .btn[disabled]{transform:none;box-shadow:5px 5px 0 var(--pink)}
+.panel .btn.ghost{background:transparent;color:var(--paper);border-color:var(--paper);box-shadow:none;font-size:17px}
+.panel .msg{color:#ff8fb8}
+.panel .done .big{color:var(--pink);text-shadow:0 0 18px rgba(255,63,156,.55)}
+.panel .printer::before{background:var(--line)}
+/* 最初の案内 */
+#intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.82)}
+#intro .box{width:100%;max-width:380px;background:#000;border:2px solid var(--yellow);box-shadow:0 0 30px rgba(255,229,0,.3),7px 7px 0 var(--pink);padding:22px 20px 20px;text-align:center}
+#intro .ttl{font-family:var(--f-poster);font-size:44px;line-height:1;color:var(--yellow);letter-spacing:.03em;margin:0 0 10px}
+#intro p{margin:0 0 6px;font-size:18px;line-height:1.6}
+#intro p.s{font-size:15px;color:var(--mute);margin-bottom:16px}
+#intro button{display:block;width:100%;min-height:56px;margin-top:10px;font-family:var(--f-display);font-size:19px;cursor:pointer;border:2px solid var(--yellow);background:var(--yellow);color:#111}
+#intro button.off{background:transparent;color:var(--paper);border-color:var(--paper)}
+/* 見出しは太字ゴシック */
+h2,.sub,.cd-l,.btn,.bar button,#intro button,.panel label,.venue strong{font-weight:900;letter-spacing:.04em}
+.sub{letter-spacing:.06em}
+.sub small,.panel label small{letter-spacing:.04em}
+.gmap{display:block;width:100%;height:260px;border:2px solid var(--paper);margin:12px 0 0;filter:grayscale(.3) contrast(1.05)}
+/* stage lighting */
+.hero::before{content:"";position:absolute;inset:-10% -45%;z-index:1;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(ellipse 16% 85% at 42% 0%,rgba(255,238,170,.62),transparent 70%),radial-gradient(ellipse 12% 80% at 66% 0%,rgba(255,63,156,.38),transparent 70%);
+  animation:sweep 7s ease-in-out infinite alternate}
+@keyframes sweep{from{transform:translateX(-24%) skewX(8deg)}to{transform:translateX(24%) skewX(-8deg)}}
+h1{text-shadow:0 0 22px rgba(255,229,0,.55),0 0 60px rgba(255,229,0,.22),0 3px 0 #000;animation:neon 2.2s linear 1 both}
+h1 span{text-shadow:0 0 18px rgba(255,255,255,.45),0 3px 0 #000;animation:neon 2.2s linear .35s 1 both}
+@keyframes neon{0%{opacity:.15}6%{opacity:1}9%{opacity:.2}14%{opacity:1}22%{opacity:.35}26%{opacity:1}48%{opacity:1}51%{opacity:.5}54%,100%{opacity:1}}
+/* countdown */
+.cd{margin:22px 0 0;padding:14px 16px 16px;background:#000;border:2px solid var(--pink);box-shadow:0 0 22px rgba(255,63,156,.35),inset 0 0 18px rgba(255,63,156,.18)}
+.cd-l{display:block;font-family:var(--f-display);font-size:17px;color:var(--pink);letter-spacing:.06em}
+.cd-n{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 4px;margin-top:2px}
+.cd-n b{font-family:var(--f-poster);font-weight:400;font-size:clamp(38px,11.2vw,84px);line-height:1;color:var(--yellow);font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(255,229,0,.5)}
+.cd-n i{font-style:normal;font-weight:900;font-size:14px;margin-right:5px}
+.cd-n i:last-child{margin-right:0}
+.cd.live .cd-n{display:none}
+.cd.live .cd-l{font-size:clamp(28px,8vw,44px);color:var(--yellow)}
+/* guitar strings divider */
+.strings{display:block;width:100%;height:58px;touch-action:pan-y;cursor:pointer;margin:6px 0}
+/* sound toggle */
+#mute{position:fixed;top:10px;right:10px;z-index:30;min-width:64px;height:44px;padding:0 12px;border-radius:22px;border:2px solid var(--yellow);background:rgba(11,10,8,.85);color:var(--yellow);font-family:var(--f-poster);font-size:16px;letter-spacing:.06em;cursor:pointer}
+#fx{position:fixed;top:62px;right:10px;z-index:30;min-width:64px;height:44px;padding:0 12px;border-radius:22px;border:2px solid transparent;color:#fff;font-family:var(--f-poster);font-size:16px;letter-spacing:.06em;cursor:pointer;
+  background:linear-gradient(rgba(11,10,8,.88),rgba(11,10,8,.88)) padding-box,linear-gradient(90deg,#ff3f9c,#ffe500,#3dff8f,#38b6ff,#b56bff) border-box}
+#fx[aria-pressed="false"]{background:rgba(11,10,8,.85);border-color:var(--mute);color:var(--mute)}
+#mute[aria-pressed="false"]{border-color:var(--mute);color:var(--mute)}
+/* tappable stubs */
+.stub{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.stub.boing{animation:boing .75s cubic-bezier(.3,1.6,.5,1),rain .75s linear}
+@keyframes boing{0%{transform:scale(1)}18%{transform:scale(1.07,.86)}40%{transform:scale(.94,1.09)}62%{transform:scale(1.03,.97)}100%{transform:scale(1)}}
+@keyframes rain{0%{box-shadow:0 0 0 3px #ff3f9c,0 0 24px #ff3f9c}25%{box-shadow:0 0 0 3px #ffe500,0 0 24px #ffe500}50%{box-shadow:0 0 0 3px #3dff8f,0 0 24px #3dff8f}75%{box-shadow:0 0 0 3px #38b6ff,0 0 24px #38b6ff}100%{box-shadow:0 0 0 0 transparent}}
+/* ticket */
+.printer{position:relative;overflow:hidden;margin:12px -4px 6px;padding:10px 6px 16px}
+.printer::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:#14110b;border-radius:3px;z-index:2}
+.ticket{display:grid;grid-template-columns:minmax(0,1fr) 84px;text-align:left;background:var(--yellow);color:#111;border:2px solid #14110b;box-shadow:4px 4px 0 #14110b}
+.ticket.print{animation:print 1.5s steps(16) both,settle .45s cubic-bezier(.3,1.7,.5,1) 1.5s both}
+@keyframes print{from{transform:translateY(-108%)}to{transform:none}}
+@keyframes settle{from{transform:rotate(0)}to{transform:rotate(-2.2deg)}}
+.t-main{padding:10px 12px;min-width:0}
+.t-main small{display:block;font-family:var(--f-poster);letter-spacing:.2em;font-size:13px;color:#b3005e}
+.t-main b{display:block;font-family:var(--f-poster);font-weight:400;font-size:30px;line-height:1.05}
+.t-main span{display:block;font-size:13px;font-weight:900;margin-top:2px}
+.t-main .who{margin:8px 0 0;font-size:21px;font-weight:900;line-height:1.3;overflow-wrap:anywhere;border-top:2px solid #14110b;padding-top:6px}
+.t-no{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:3px dashed #14110b;font-family:var(--f-poster)}
+.t-no i{font-style:normal;font-size:13px;letter-spacing:.14em}
+.t-no em{font-style:normal;font-size:38px;line-height:1;font-variant-numeric:tabular-nums}
+.prof{padding-top:14px;padding-bottom:36px}
+.prof .lead{margin:0 0 14px;font-weight:900;font-size:19px}
+.career{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px;max-width:640px}
+.career li{display:grid;grid-template-columns:66px minmax(0,1fr);gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;font-size:17px;line-height:1.55}
+.career b{font-family:var(--f-poster);font-weight:400;font-size:26px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.links{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:640px}
+.links a{display:flex;flex-direction:column;justify-content:center;min-height:60px;padding:10px 16px;border:2px solid var(--yellow);color:var(--yellow);font-weight:900;text-decoration:none;line-height:1.3}
+.links a::after{content:"\2197";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:21px}
+.links a{position:relative;padding-right:40px}
+.links a small{font-weight:700;font-size:14px;color:var(--mute)}
+.links a:hover{background:var(--yellow);color:#111}
+.links a:hover small{color:#333}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(11,10,8,.94);border-top:2px solid var(--yellow)}
+.bar .n{font-weight:900;font-size:15px;line-height:1.2;white-space:nowrap}
+.bar .n b{font-family:var(--f-poster);font-weight:400;font-size:30px;color:var(--yellow);margin-right:4px;font-variant-numeric:tabular-nums}
+.bar button{flex:1;font-family:var(--f-display);font-size:20px;color:#111;background:var(--yellow);border:0;padding:13px 10px;min-height:48px;cursor:pointer}
+.map{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 0 10px;min-height:52px;padding:12px;background:var(--paper);color:#14110b;font-weight:900;text-decoration:none;box-shadow:5px 5px 0 var(--pink)}
+.map svg{flex:none}
+
+/* line-up + venue */
+.lower{padding-top:14px;padding-bottom:64px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:36px}
+.lineup{margin:0;display:grid;gap:18px}
+.lineup dt{font-family:var(--f-poster);color:var(--yellow);font-size:30px;letter-spacing:.04em;line-height:1.1}
+.lineup dd{margin:4px 0 0;display:flex;flex-wrap:wrap;gap:4px 18px;font-weight:900;font-size:20px}
+.lineup dd span small{font-weight:700;color:var(--mute);font-size:15px;margin-left:4px}
+.venue p{margin:0 0 8px;font-size:17px}
+.venue strong{font-family:var(--f-display);font-weight:400;font-size:22px}
+footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;padding:16px 0 28px}
+
+@media (min-width:761px){
+  .hero img{height:clamp(220px,26vw,360px);object-fit:cover;object-position:20% 20%}
+  .hero-tag{right:auto;left:20px;bottom:auto;top:16px}
+  .bar{display:none}
+}
+@media (max-width:760px){
+  body{padding-bottom:0}
+  footer{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
+  main,.lower{grid-template-columns:minmax(0,1fr);gap:32px}
+  .panel{position:relative;order:-1}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(2){border-right:0}
+  .fact:nth-child(-n+2){border-bottom:2px solid var(--paper)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="score" aria-hidden="true"></canvas>
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="intro-t">
+  <div class="box">
+    <p class="ttl" id="intro-t">SOUND ♪</p>
+    <p>このサイトは、画面をタップするとギターの音が鳴ります。</p>
+    <p class="s">音と🌈の音符は、あとから右上のボタンでいつでもオン・オフできます。</p>
+    <button type="button" id="intro-on">音ありで入る</button>
+    <button type="button" id="intro-off" class="off">音なしで入る</button>
+  </div>
+</div>
+<button type="button" id="fx" aria-pressed="true" aria-label="虹色の音符のオン・オフ">🌈 ON</button>
+<button type="button" id="mute" aria-pressed="true" aria-label="タップ音のオン・オフ">♪ ON</button>
+
+<header class="hero">
+  <picture>
+    <source media="(min-width:761px)" srcset="hero.jpg">
+    <img src="hero-m.jpg" alt="アコースティックギターを弾き語る高谷秀司先生" width="1120" height="420">
+  </picture>
+  <div class="hero-tag">51st ANNIVERSARY</div>
+</header>
+
+<div class="wrap">
+  <div class="title-block">
+    <h1>Gee Two <span>Live</span></h1>
+    <p class="sub">高谷秀司先生 ライブ 参加申し込み<small>Gee Two with F'zoku ／ BLUES ALLEY JAPAN(目黒)</small></p>
+
+    <dl class="facts">
+      <div class="fact hot"><dt>DATE</dt><dd>11.19<small>木</small></dd></div>
+      <div class="fact"><dt>OPEN 開場</dt><dd>18:00</dd></div>
+      <div class="fact"><dt>START 開演</dt><dd>19:00</dd></div>
+      <div class="fact"><dt>入場料</dt><dd>¥5,000</dd></div>
+    </dl>
+    <p class="feenote">2026年11月19日(木)・2ステージ制。会場の案内では、テーブル席は当日シートチャージ ¥550 が別途かかります。</p>
+
+    <div class="cd" id="cd"><span class="cd-l" id="cd-label">開演まで あと</span>
+      <div class="cd-n"><b id="cd-d">0</b><i>日</i><b id="cd-h">00</b><i>時間</i><b id="cd-m">00</b><i>分</i><b id="cd-s">00</b><i>秒</i></div></div>
+
+    <ul class="cities" aria-label="これまでの公演地">
+      <li>We played at</li><li>L.A.</li><li>Barcelona</li><li>New York</li><li>Hong Kong</li><li>Milano</li><li>Ho Chi Minh</li>
+    </ul>
+  </div>
+</div>
+
+<div class="wrap"><canvas class="strings" aria-hidden="true"></canvas></div>
+
+<main class="wrap">
+  <section aria-labelledby="h-list">
+    <h2 id="h-list">参加者一覧 <em>GUEST LIST</em></h2>
+    <p class="count" aria-live="polite"><b id="count">–</b><span>名が申し込み済み</span></p>
+    <ol class="list" id="list"></ol>
+    <p class="note" id="list-note">参加者一覧を読み込んでいます…</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-form">
+    <h2 id="h-form">申し込みフォーム <em>ENTRY</em></h2>
+
+    <form id="entry-form" novalidate>
+      <p>お名前とコメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。</p>
+      <label for="f-name">お名前</label>
+      <input type="text" id="f-name" name="name" maxlength="40" autocomplete="name" placeholder="例:山田 太郎" required>
+      <label for="f-comment">コメント<small>会社名・ご所属・ひとことなど</small></label>
+      <textarea id="f-comment" name="comment" maxlength="140" placeholder="例:株式会社〇〇"></textarea>
+      <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <button class="btn" id="f-submit" type="submit">この内容で申し込む</button>
+      <p class="msg" id="f-msg" role="alert"></p>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <div class="big">THANK YOU</div>
+      <div class="printer"><div class="ticket" id="ticket">
+        <div class="t-main"><small>ADMIT ONE</small><b>GEE TWO LIVE</b><span>2026.11.19 THU ／ OPEN 18:00 START 19:00</span><p class="who" id="done-who"></p></div>
+        <div class="t-no"><i>No.</i><em id="t-no">–</em></div>
+      </div></div>
+      <p>お申し込みを受け付けました。参加者一覧に反映されています。当日、会場でお待ちしています。</p>
+      <button class="btn ghost" id="again" type="button">続けて別の方を申し込む</button>
+    </div>
+  </section>
+</main>
+
+<div class="wrap"><canvas class="strings" aria-hidden="true"></canvas></div>
+
+<section class="wrap prof" aria-labelledby="h-prof">
+  <h2 id="h-prof">高谷秀司 <em>PROFILE</em></h2>
+  <p class="lead">ブルースギタリスト／和琴奏者。大阪府出身。</p>
+  <ul class="career">
+    <li><b>1985</b><span>アメリカへ渡り、ラリー・カールトンらと共演</span></li>
+    <li><b>2002</b><span>マサ大家とのデュオで欧米ツアーを開始</span></li>
+    <li><b>2006</b><span>シドニー・オペラハウスで組曲「日本の四季」を演奏</span></li>
+    <li><b>2007</b><span>尺八の山本邦山と「大吟醸」を結成</span></li>
+    <li><b>2010</b><span>ロサンゼルスのNAMMショーに出演、豪州ツアー</span></li>
+  </ul>
+  <div class="links">
+    <a href="https://www.bigmade-music.com/takatanihideshi/profile.html" target="_blank" rel="noopener">公式プロフィール<small>bigmade-music.com</small></a>
+    <a href="https://kallos-entertainment.com/?ac=proe&id=163" target="_blank" rel="noopener">所属事務所プロフィール<small>カロスエンターテイメント</small></a>
+  </div>
+</section>
+
+<div class="wrap"><canvas class="strings" aria-hidden="true"></canvas></div>
+
+<section class="wrap lower">
+  <div>
+    <h2>出演 <em>LINE-UP</em></h2>
+    <dl class="lineup">
+      <div><dt>Gee Two</dt><dd><span>高谷秀司<small>A.Gt</small></span><span>マサ大家<small>A.Gt</small></span></dd></div>
+      <div><dt>F'zoku</dt><dd><span>藤井真一<small>Bass</small></span><span>友成好宏<small>Key</small></span><span>林 政宏<small>Key</small></span><span>正岡ジュン<small>Dr</small></span><span>続木力<small>Hrp</small></span></dd></div>
+      <div><dt>Special Guest</dt><dd><span>Yuka<small>Vo</small></span></dd></div>
+    </dl>
+  </div>
+  <div class="venue">
+    <h2>会場 <em>VENUE</em></h2>
+    <p><strong>BLUES ALLEY JAPAN</strong></p>
+    <p>〒153-0063 東京都目黒区目黒1-3-14 B1F<br>JR山手線 目黒駅 改札から徒歩5分</p>
+    <iframe class="gmap" title="BLUES ALLEY JAPAN の地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=BLUES+ALLEY+JAPAN+%E7%9B%AE%E9%BB%92&z=16&output=embed"></iframe>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=BLUES+ALLEY+JAPAN+%E7%9B%AE%E9%BB%92" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#b3005e" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.800 7-13a7 7 0 0 0-7-7zm0 9.500A2.500 2.500 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg>Googleマップで場所を見る</a>
+    <p><a href="https://www.bluesalley.co.jp/schedule/syousai.html?c_code=Schedule-20260911205411&status=ok&disp_date=202611&type=s#b">会場公式サイトの公演ページを見る</a></p>
+  </div>
+</section>
+
+<div class="bar" id="bar"><span class="n"><b id="bar-count">–</b>名 参加</span><button type="button" id="bar-go">申し込む</button></div>
+
+<footer><div class="wrap">このページは参加者とりまとめ用の申し込みページです。会場公式の予約ページではありません。</div></footer>
+
+<script>
+/* 音: 弦をはじく音を合成 (Karplus-Strong)。最初のタップ以降に有効 */
+window.Snd=(function(){
+  var ac=null, on=true, btn=document.getElementById('mute');
+  try{ if(localStorage.getItem('geetwo-sound')==='off') on=false; }catch(e){}
+  var SCALE=[82.41,98,110,123.47,146.83,164.81,196,220,246.94,293.66,329.63,392,440,493.88,587.33,659.26];
+  function paint(){ btn.setAttribute('aria-pressed',on?'true':'false'); btn.textContent=on?'♪ ON':'♪ OFF'; }
+  function ensure(){
+    if(!ac){ try{ var AC=window.AudioContext||window.webkitAudioContext; ac=new AC(); }catch(e){ ac=null; return false; } }
+    if(ac.state==='suspended'){ try{ var p=ac.resume(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+    return true;
+  }
+  function pluck(freq,vel,delay){
+    if(!on || !ensure()) return;
+    try{
+      var sr=ac.sampleRate, len=Math.floor(sr*1.5), buf=ac.createBuffer(1,len,sr), d=buf.getChannelData(0), N=Math.max(2,Math.round(sr/freq)), i, prev=0;
+      for(i=0;i<N;i++){ var w=Math.random()*2-1; prev=prev*.45+w*.55; d[i]=prev; }
+      for(i=N;i<len;i++){ d[i]=(d[i-N]+d[i-N+1])*.5*.9965; }
+      var src=ac.createBufferSource(); src.buffer=buf;
+      var lp=ac.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=4200;
+      var g=ac.createGain(); g.gain.value=(vel||.5)*.55;
+      src.connect(lp); lp.connect(g); g.connect(ac.destination); src.start(ac.currentTime+(delay||0));
+    }catch(e){}
+  }
+  btn.addEventListener('click',function(){
+    on=!on; paint(); try{ localStorage.setItem('geetwo-sound',on?'on':'off'); }catch(e){}
+    if(on) pluck(329.63,.5);
+  });
+  paint();
+  (function(){
+    var intro=document.getElementById('intro'); if(!intro) return;
+    function close(v){ on=v; paint(); try{ localStorage.setItem('geetwo-sound',on?'on':'off'); }catch(e){} intro.hidden=true; if(on){ [164.81,246.94,329.63].forEach(function(f,i){ pluck(f,.45,i*.07); }); } }
+    document.getElementById('intro-on').addEventListener('click',function(){ close(true); });
+    document.getElementById('intro-off').addEventListener('click',function(){ close(false); });
+    try{ document.getElementById('intro-on').focus({preventScroll:true}); }catch(e){}
+  })();
+  return {
+    pluck:pluck,
+    at:function(y,h){ var i=Math.max(0,Math.min(SCALE.length-1,Math.floor((1-y/h)*SCALE.length))); pluck(SCALE[i],.5); },
+    chord:function(){ [82.41,123.47,164.81,196,246.94,329.63].forEach(function(f,i){ pluck(f,.42,i*.055); }); }
+  };
+})();
+
+/* 区切り線: 6本の弦。なぞると震えて鳴る */
+(function(){
+  var OPEN=[82.41,110,146.83,196,246.94,329.63], THICK=[3,2.5,2,1.4,1.1,.9];
+  var still=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  Array.prototype.forEach.call(document.querySelectorAll('canvas.strings'),function(cv){
+    var ctx=cv.getContext('2d'), W=0,H=58,dpr=1, st=OPEN.map(function(){ return {t:-1e9,px:.5}; }), raf=0, last=-1;
+    function size(){ dpr=Math.min(window.devicePixelRatio||1,2); W=cv.clientWidth||300; cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); draw(performance.now()); }
+    function ys(i){ return 8+i*(H-16)/5; }
+    function draw(now){
+      ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      var active=false;
+      for(var i=0;i<6;i++){
+        var dt=(now-st[i].t)/1000, A=dt<1.6 ? 9*Math.exp(-dt*3.4)*Math.sin(dt*(34+i*7)) : 0; if(dt<1.6) active=true;
+        var g=ctx.createLinearGradient(0,0,W,0), wound=i<3;
+        g.addColorStop(0,wound?'#7a5c26':'#8d8d8d'); g.addColorStop(.5,wound?'#e3bd72':'#f2f2f2'); g.addColorStop(1,wound?'#7a5c26':'#8d8d8d');
+        ctx.strokeStyle=g; ctx.lineWidth=THICK[i]; ctx.beginPath();
+        var px=st[i].px;
+        for(var x=0;x<=W;x+=8){ var u=x/W, shape=u<px ? u/px : (1-u)/(1-px); var y=ys(i)+A*shape; if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+        ctx.stroke();
+      }
+      return active;
+    }
+    function loop(now){ raf = draw(now) ? requestAnimationFrame(loop) : 0; }
+    function hit(e,force){
+      var r=cv.getBoundingClientRect(), y=e.clientY-r.top, i=Math.max(0,Math.min(5,Math.round((y-8)/((H-16)/5))));
+      if(!force && i===last) return; last=i;
+      st[i].t=performance.now(); st[i].px=Math.max(.08,Math.min(.92,(e.clientX-r.left)/r.width));
+      if(window.Snd) Snd.pluck(OPEN[i],.6);
+      if(!still && !raf) raf=requestAnimationFrame(loop);
+    }
+    cv.addEventListener('pointerdown',function(e){ hit(e,true); });
+    cv.addEventListener('pointermove',function(e){ if(e.pointerType==='mouse' || e.pressure>0) hit(e,false); });
+    cv.addEventListener('pointerleave',function(){ last=-1; });
+    window.addEventListener('resize',function(){ if((cv.clientWidth||300)!==W) size(); });
+    size();
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var listEl=$('list'), noteEl=$('list-note'), countEl=$('count');
+  var form=$('entry-form'), nameEl=$('f-name'), cmtEl=$('f-comment'), btn=$('f-submit'), msg=$('f-msg');
+  var done=$('done'), doneWho=$('done-who');
+
+  var lastId=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
+
+  function pad(n){ n=String(n); return n.length<3 ? ('00'+n).slice(-3) : n; }
+  function fmt(iso){
+    var d=new Date(iso); if(isNaN(d)) return '';
+    return (d.getMonth()+1)+'/'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+' 受付';
+  }
+
+  function render(){
+    countEl.textContent = entries.length; $('bar-count').textContent = entries.length;
+    listEl.textContent='';
+    entries.forEach(function(e,i){
+      var li=document.createElement('li'); li.className='stub';
+      if(seen && !seen[e.id]) li.className+=' new';
+      var no=document.createElement('div'); no.className='no';
+      var lab=document.createElement('i'); lab.textContent='No.'; no.appendChild(lab);
+      no.appendChild(document.createTextNode(pad(i+1)));
+      var body=document.createElement('div'); body.className='body';
+      var nm=document.createElement('div'); nm.className='name'; nm.textContent=e.name||'(お名前なし)';
+      body.appendChild(nm);
+      if(e.comment){ var c=document.createElement('div'); c.className='cmt'; c.textContent=e.comment; body.appendChild(c); }
+      var meta=document.createElement('div'); meta.className='meta';
+      var t=document.createElement('span'); t.textContent=fmt(e.createdAt); meta.appendChild(t);
+      if(adminKey){
+        var del=document.createElement('button'); del.type='button'; del.className='del'; del.textContent='削除';
+        del.addEventListener('click',function(){
+          if(!del.classList.contains('sure')){ del.classList.add('sure'); del.textContent='本当に削除する';
+            setTimeout(function(){ del.classList.remove('sure'); del.textContent='削除'; },4000); return; }
+          del.disabled=true;
+          api('DELETE',null,'?id='+encodeURIComponent(e.id),{'x-admin-key':adminKey}).then(load).catch(function(){ del.disabled=false; del.textContent='削除できませんでした'; });
+        });
+        meta.appendChild(del);
+      }
+      body.appendChild(meta);
+      li.appendChild(no); li.appendChild(body); listEl.appendChild(li);
+    });
+    seen={}; entries.forEach(function(e){ seen[e.id]=true; });
+    if(lastId){ for(var q=0;q<entries.length;q++){ if(entries[q].id===lastId){ $('t-no').textContent=pad(q+1); break; } } }
+  }
+
+  $('bar-go').addEventListener('click',function(){ $('h-form').scrollIntoView({behavior:'smooth',block:'start'}); if(!form.hidden && !nameEl.disabled) setTimeout(function(){ nameEl.focus({preventScroll:true}); },450); });
+
+  function note(text){ if(text){ noteEl.textContent=text; noteEl.hidden=false; } else { noteEl.hidden=true; } }
+
+  function lockForm(text){
+    readOnly=true; btn.disabled=true; nameEl.disabled=true; cmtEl.disabled=true; msg.textContent=text;
+  }
+
+  function showDone(name){
+    doneWho.textContent=name+' 様';
+    form.hidden=true; done.hidden=false;
+    var tk=$('ticket'); tk.classList.remove('print'); void tk.offsetWidth; tk.classList.add('print');
+    if(window.GT && GT.celebrate) GT.celebrate();
+  }
+  listEl.addEventListener('click',function(ev){
+    if(ev.target.closest && ev.target.closest('.del')) return;
+    var li=ev.target.closest ? ev.target.closest('.stub') : null; if(!li) return;
+    li.classList.remove('boing','new'); void li.offsetWidth; li.classList.add('boing');
+  });
+
+  /* 開演までのカウントダウン (2026-11-19 19:00 JST) */
+  (function(){
+    var START=Date.parse('2026-11-19T19:00:00+09:00'), END=START+4*3600*1000, cd=$('cd'), lab=$('cd-label');
+    function two(n){ return ('0'+n).slice(-2); }
+    function tickCd(){
+      var now=Date.now(), r=START-now;
+      if(r<=0){ cd.classList.add('live'); lab.textContent = now<END ? 'ただいま開演中！' : 'ご来場ありがとうございました'; return; }
+      var sec=Math.floor(r/1000), d=Math.floor(sec/86400);
+      $('cd-d').textContent=d; $('cd-h').textContent=two(Math.floor(sec%86400/3600)); $('cd-m').textContent=two(Math.floor(sec%3600/60)); $('cd-s').textContent=two(sec%60);
+      lab.textContent = d===0 ? '本日開演！ あと' : '開演まで あと';
+    }
+    tickCd(); setInterval(tickCd,1000);
+  })();
+  $('again').addEventListener('click',function(){
+    done.hidden=true; form.hidden=false; nameEl.value=''; cmtEl.value=''; msg.textContent=''; nameEl.focus();
+  });
+
+  var adminKey=''; try{ adminKey=new URLSearchParams(location.search).get('admin')||''; }catch(e){}
+  function api(method,body,qs,headers){
+    var h=headers||{}; if(body) h['content-type']='application/json';
+    return fetch('/api/entries'+(qs||''),{method:method,headers:h,body:body?JSON.stringify(body):undefined,cache:'no-store'}).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(j){ if(!r.ok){ var e=new Error(j.error||'http'); e.code=j.error||'http'; throw e; } return j; });
+    });
+  }
+  function save(data){ return api('POST',data); }
+  function load(){
+    return api('GET').then(function(j){
+      entries=(j.entries||[]).map(function(x){ return {id:String(x.id),name:String(x.name||''),comment:String(x.comment||''),createdAt:x.createdAt}; });
+      render(); note(entries.length ? '' : 'まだ申し込みはありません。最初のお一人になりませんか。');
+    });
+  }
+
+  form.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(readOnly) return;
+    var name=nameEl.value.replace(/\s+/g,' ').trim();
+    var comment=cmtEl.value.trim();
+    if(!name){ msg.textContent='お名前を入力してください。'; nameEl.focus(); return; }
+    btn.disabled=true; btn.textContent='送信中…'; msg.textContent='';
+    save({name:name.slice(0,40), comment:comment.slice(0,140), website:$('f-website').value})
+      .then(function(ref){
+        lastId=ref && ref.id; $('t-no').textContent='–'; load().catch(function(){});
+        btn.disabled=false; btn.textContent='この内容で申し込む';
+        try{ localStorage.setItem('geetwo-last-name',name); }catch(e){}
+        showDone(name);
+      })
+      .catch(function(err){
+        btn.textContent='この内容で申し込む';
+        var code=err && err.code; btn.disabled=false;
+        if(code==='full'){ msg.textContent='受付数が上限に達しました。主催者にご連絡ください。'; }
+        else if(code==='name_required'){ msg.textContent='お名前を入力してください。'; }
+        else { msg.textContent='送信できませんでした。通信状況を確認して、もう一度お試しください。'; }
+      });
+  });
+
+  load().catch(function(){ note('参加者一覧を読み込めませんでした。少し待ってから開き直してください。'); });
+  setInterval(function(){ if(!document.hidden) load().catch(function(){}); },8000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) load().catch(function(){}); });
+})();
+</script>
+<script>
+/* 背景: ギター譜(五線+TAB)。音はランダム生成。タップで線が揺れ、虹色の音符が弾ける */
+(function(){
+  var cv=document.getElementById('score'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), W=0,H=0,VW=0,VH=0,S=.62,dpr=1, systems=[], pulses=[], parts=[], raf=0, clefOK=false;
+  var still=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var G=9, TABG=8.5, SYS=178, LIFE=1700, GRAY='rgba(214,214,214,.07)', GRAYF='rgba(214,214,214,.085)';
+  var PATS=[['q','q','q','q'],['pair','q','pair','q'],['h','q','q'],['q','r','pair','q'],['pair','pair','h'],['q','pair','q','r'],['h','h']];
+  var WIDTH={q:32,h:52,r:30,pair:50};
+  function rnd(a,b){ return a+Math.random()*(b-a); }
+  function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+  function tabOf(step){ var s=Math.max(0,Math.min(5,4-Math.floor((step+1)/2.5))); return {s:s,f:Math.floor(rnd(0,13))}; }
+
+  function build(){
+    dpr=Math.min(window.devicePixelRatio||1,2); W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); VW=W/S; VH=H/S;
+    systems=[];
+    var first=true;
+    for(var y=46;y<VH+80;y+=SYS){
+      var sys={y:y,tab:y+4*G+40,items:[],bars:[],time:first}, x=first?96:70, step=Math.floor(rnd(1,7));
+      first=false;
+      while(x<VW-24){
+        var pat=pick(PATS);
+        for(var i=0;i<pat.length;i++){
+          var k=pat[i]; if(x>VW-20) break;
+          step=Math.max(-2,Math.min(10,step+Math.floor(rnd(-3,4))));
+          var it={k:k,x:x,step:step,t:tabOf(step)};
+          if(k==='pair'){ var s2=Math.max(-2,Math.min(10,step+Math.floor(rnd(-2,3)))); it.step2=s2; it.t2=tabOf(s2); step=s2; }
+          sys.items.push(it); x+=WIDTH[k];
+        }
+        x+=2; if(x<VW-8) sys.bars.push(x); x+=16;
+      }
+      systems.push(sys);
+    }
+    draw(performance.now());
+  }
+
+  function disp(x,y,now){
+    var d=0;
+    for(var i=0;i<pulses.length;i++){
+      var p=pulses[i], t=(now-p.t)/1000, dx=Math.abs(x-p.x), dy=(y-p.y)/200;
+      d+=17*Math.exp(-t*2.6)*Math.sin(t*17-dx*0.028)*Math.exp(-(dx/300)*(dx/300))*Math.exp(-dy*dy);
+    }
+    return d;
+  }
+  function wline(y,now,x0){
+    ctx.beginPath();
+    for(var x=x0;x<=VW+12;x+=12){ var yy=y+(pulses.length?disp(x,y,now):0); if(x===x0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy); }
+    ctx.stroke();
+  }
+  function head(open){
+    ctx.beginPath(); ctx.ellipse(0,0,5.9,4.2,-0.38,0,Math.PI*2);
+    if(open){ ctx.lineWidth=1.7; ctx.stroke(); } else ctx.fill();
+  }
+  function stem(up,len){ ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(up?5.3:-5.3,up?-1.5:1.5); ctx.lineTo(up?5.3:-5.3,up?-len:len); ctx.stroke(); }
+  function flag(up,len,n){
+    ctx.lineWidth=1.6;
+    for(var i=0;i<n;i++){ var sx=up?5.3:-5.3, ey=(up?-len:len)+(up?1:-1)*i*7;
+      ctx.beginPath(); ctx.moveTo(sx,ey); ctx.bezierCurveTo(sx+3,ey+(up?7:-7),sx+13,ey+(up?9:-9),sx+8,ey+(up?21:-21)); ctx.stroke(); }
+  }
+  function rest(){
+    ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.beginPath();
+    ctx.moveTo(-2.5,-11); ctx.lineTo(3.5,-3.5); ctx.lineTo(-2,2); ctx.lineTo(3,8); ctx.stroke();
+    ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(3,8); ctx.quadraticCurveTo(-6,5,-1,13); ctx.stroke();
+  }
+  function ledger(step){
+    ctx.lineWidth=1;
+    for(var s=-2;s>=step;s-=2){ var yy=(step-s)*G/2; ctx.beginPath(); ctx.moveTo(-10,yy); ctx.lineTo(10,yy); ctx.stroke(); }
+    for(var s2=10;s2<=step;s2+=2){ var y2=(step-s2)*G/2; ctx.beginPath(); ctx.moveTo(-10,y2); ctx.lineTo(10,y2); ctx.stroke(); }
+  }
+  function tint(d,x){
+    var a=fxOn?Math.min(1,Math.abs(d)/5):0;
+    if(a<.12){ ctx.fillStyle=GRAYF; ctx.strokeStyle=GRAYF; return; }
+    var c='hsla('+((x*1.3+performance.now()*.25)%360)+',95%,62%,'+(.3+.6*a)+')'; ctx.fillStyle=c; ctx.strokeStyle=c;
+  }
+  function staffNote(sys,x,step,open,now,stemLen,dir){
+    var ny=sys.y+4*G-step*G/2, d=pulses.length?disp(x,ny,now):0, k=Math.max(-.45,Math.min(.45,d/20));
+    ctx.save(); ctx.translate(x,ny+d*1.4); tint(d,x); ledger(step); ctx.scale(1-k,1+k); head(open);
+    var up=dir!==undefined?dir:step<4; if(stemLen) stem(up,stemLen);
+    ctx.restore();
+    return {x:x+(up?5.3:-5.3), y:ny+d*1.4+(up?-stemLen:stemLen)*(1+k), d:d};
+  }
+  function tabNum(sys,x,t,now){
+    var ty=sys.tab+t.s*TABG, d=pulses.length?disp(x,ty,now):0;
+    tint(d,x); ctx.font='600 10px ui-monospace,Menlo,Consolas,monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    var w=t.f>9?13:8; ctx.clearRect(x-w/2,ty+d-5,w,10); ctx.fillText(String(t.f),x,ty+d+.5);
+  }
+
+  function draw(now){
+    ctx.setTransform(dpr*S,0,0,dpr*S,0,0); ctx.clearRect(0,0,VW+2,VH+2);
+    for(var s=0;s<systems.length;s++){
+      var sys=systems[s], l;
+      ctx.strokeStyle=GRAY; ctx.fillStyle=GRAYF; ctx.lineWidth=1;
+      for(l=0;l<5;l++) wline(sys.y+l*G,now,10);
+      for(l=0;l<6;l++) wline(sys.tab+l*TABG,now,10);
+      var bot=sys.tab+5*TABG;
+      ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(10,sys.y); ctx.lineTo(10,bot); ctx.stroke();
+      for(var b=0;b<sys.bars.length;b++){
+        var bx=sys.bars[b], o1=pulses.length?disp(bx,sys.y+18,now):0, o2=pulses.length?disp(bx,sys.tab+20,now):0;
+        ctx.beginPath(); ctx.moveTo(bx,sys.y+o1); ctx.lineTo(bx,sys.y+4*G+o1); ctx.moveTo(bx,sys.tab+o2); ctx.lineTo(bx,bot+o2); ctx.stroke();
+      }
+      /* 音部記号・調号・拍子・TAB */
+      ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+      if(clefOK){ ctx.font=(G*4)+'px "Noto Music"'; ctx.fillText('𝄞',16,sys.y+3*G); }
+      ctx.font='italic 700 9px Georgia,serif'; ctx.fillText('8',27,sys.y+4*G+19);
+      ctx.font='18px "Noto Music",Georgia,serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('♯',52,sys.y+.3);
+      if(sys.time){ ctx.font='700 21px Georgia,"Times New Roman",serif'; ctx.fillText('4',72,sys.y+G+1); ctx.fillText('4',72,sys.y+3*G+1); }
+      ctx.font='700 12px Georgia,serif'; ctx.fillText('T',24,sys.tab+TABG*.9); ctx.fillText('A',24,sys.tab+TABG*2.5); ctx.fillText('B',24,sys.tab+TABG*4.1);
+
+      for(var n=0;n<sys.items.length;n++){
+        var it=sys.items[n];
+        if(it.k==='r'){ var ry=sys.y+2*G, rd=pulses.length?disp(it.x,ry,now):0; ctx.save(); ctx.translate(it.x,ry+rd*1.4); tint(rd,it.x); rest(); ctx.restore(); continue; }
+        if(it.k==='pair'){
+          var up=(it.step+it.step2)/2<4;
+          var a=staffNote(sys,it.x,it.step,false,now,29,up), c=staffNote(sys,it.x+24,it.step2,false,now,29,up);
+          tint((a.d+c.d)/2,it.x); ctx.lineWidth=4; ctx.lineCap='butt'; ctx.beginPath(); ctx.moveTo(a.x,a.y+(up?2:-2)); ctx.lineTo(c.x,c.y+(up?2:-2)); ctx.stroke();
+          tabNum(sys,it.x,it.t,now); tabNum(sys,it.x+24,it.t2,now);
+        }else{
+          staffNote(sys,it.x,it.step,it.k==='h',now,29); tabNum(sys,it.x,it.t,now);
+        }
+      }
+    }
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    drawParts(now);
+  }
+
+  /* 虹色の音符 (オン・オフ可) */
+  var fxOn=true, fxBtn=document.getElementById('fx');
+  try{ if(localStorage.getItem('geetwo-fx')==='off') fxOn=false; }catch(e){}
+  function fxPaint(){ fxBtn.setAttribute('aria-pressed',fxOn?'true':'false'); fxBtn.textContent=fxOn?'\uD83C\uDF08 ON':'\uD83C\uDF08 OFF'; }
+  fxBtn.addEventListener('click',function(){ fxOn=!fxOn; fxPaint(); try{ localStorage.setItem('geetwo-fx',fxOn?'on':'off'); }catch(e){} if(!fxOn) parts=[]; });
+  fxPaint();
+  var KINDS=['q','e','s','h','pair','sharp','flat','clef','e','q','pair'];
+  function burst(x,y,now){
+    if(!fxOn) return;
+    var n=18, base=Math.random()*360;
+    for(var i=0;i<n;i++){
+      var ang=-Math.PI/2+rnd(-2.5,2.5), sp=rnd(300,760);
+      parts.push({x:x,y:y,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp-80,t:now,life:rnd(1100,1700),hue:(base+i*360/n)%360,
+        k:pick(KINDS),sc:rnd(1.3,2.3),rot:rnd(-.5,.5),vr:rnd(-1.6,1.6),ph:rnd(0,6.28)});
+    }
+    if(parts.length>90) parts.splice(0,parts.length-90);
+  }
+  function glyph(k){
+    if(k==='q'){ head(false); stem(true,28); }
+    else if(k==='h'){ head(true); stem(true,28); }
+    else if(k==='e'){ head(false); stem(true,28); flag(true,28,1); }
+    else if(k==='s'){ head(false); stem(true,30); flag(true,30,2); }
+    else if(k==='pair'){ ctx.save(); ctx.translate(-11,3); head(false); stem(true,28); ctx.translate(22,-5); head(false); stem(true,28); ctx.restore();
+      ctx.lineWidth=4.5; ctx.beginPath(); ctx.moveTo(-5.7,-25); ctx.lineTo(16.3,-30); ctx.stroke(); }
+    else{ ctx.textAlign='center'; ctx.textBaseline='middle';
+      if(k==='clef' && clefOK){ ctx.font='34px "Noto Music"'; ctx.fillText('𝄞',0,0); }
+      else { ctx.font='30px "Noto Music",Georgia,serif'; ctx.fillText(k==='flat'?'♭':'♯',0,0); } }
+  }
+  function drawParts(now){
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i], t=(now-p.t)/1000, u=(now-p.t)/p.life; if(u>=1) continue;
+      var x=p.x+p.vx*t*Math.exp(-t*.75), y=p.y+p.vy*t*Math.exp(-t*.75)+170*t*t;
+      var popAt=.72, col='hsl('+p.hue+',100%,62%)';
+      if(u<popAt){
+        var grow=Math.min(1,u*9), j=.42*Math.exp(-t*2.2)*Math.sin(t*22+p.ph);
+        ctx.save(); ctx.translate(x,y); ctx.rotate(p.rot+p.vr*t); ctx.scale(p.sc*grow*(1+j),p.sc*grow*(1-j));
+        ctx.fillStyle=col; ctx.strokeStyle=col; ctx.shadowColor=col; ctx.shadowBlur=10; glyph(p.k); ctx.restore();
+      }else{
+        var v=(u-popAt)/(1-popAt), e=1-(1-v)*(1-v);
+        ctx.save(); ctx.translate(x,y); ctx.globalAlpha=1-v;
+        ctx.save(); ctx.rotate(p.rot+p.vr*t); ctx.scale(p.sc*(1+e*.9),p.sc*(1+e*.9)); ctx.fillStyle=col; ctx.strokeStyle=col; ctx.globalAlpha=(1-v)*(1-v); glyph(p.k); ctx.restore();
+        ctx.strokeStyle=col; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(0,-8,6+e*26*p.sc*.6,0,Math.PI*2); ctx.stroke();
+        for(var s=0;s<7;s++){ var a=s*Math.PI*2/7+p.ph, r=8+e*34;
+          ctx.fillStyle='hsl('+((p.hue+s*50)%360)+',100%,66%)'; ctx.beginPath(); ctx.arc(Math.cos(a)*r,-8+Math.sin(a)*r,2.6*(1-v)+.4,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+      }
+    }
+  }
+
+  function tick(now){
+    pulses=pulses.filter(function(p){ return now-p.t<LIFE; });
+    parts=parts.filter(function(p){ return now-p.t<p.life; });
+    draw(now);
+    raf=(pulses.length||parts.length)?requestAnimationFrame(tick):0;
+  }
+  window.addEventListener('pointerdown',function(e){
+    if(still) return;
+    if(e.target && e.target.closest && e.target.closest('#intro')) return;
+    var now=performance.now();
+    pulses.push({x:e.clientX/S,y:e.clientY/S,t:now}); if(pulses.length>6) pulses.shift();
+    burst(e.clientX,e.clientY,now);
+    var tg=e.target;
+    if(window.Snd && !(tg && tg.closest && tg.closest('canvas.strings,#mute,#fx,input,textarea'))) Snd.at(e.clientY,H);
+    if(!raf) raf=requestAnimationFrame(tick);
+  },{passive:true});
+  var rt=0, lastW=window.innerWidth;
+  window.addEventListener('resize',function(){
+    if(window.innerWidth===lastW && Math.abs(window.innerHeight-H)<160) return;
+    clearTimeout(rt); rt=setTimeout(function(){ lastW=window.innerWidth; build(); },150);
+  });
+  window.GT={celebrate:function(){
+    if(window.Snd) Snd.chord();
+    if(still) return;
+    var now=performance.now();
+    burst(W*.25,H*.5,now); burst(W*.5,H*.4,now); burst(W*.75,H*.5,now);
+    if(!raf) raf=requestAnimationFrame(tick);
+  }};
+  build();
+  if(document.fonts && document.fonts.load){
+    document.fonts.load('36px "Noto Music"','𝄞').then(function(f){ if(f && f.length){ clefOK=true; if(!raf) draw(performance.now()); } }).catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
