@@ -59,10 +59,11 @@ export default async (req) => {
   const isAdmin = !!adminKey && req.headers.get("x-admin-key") === adminKey;
 
   if (req.method === "GET") {
+    // 一覧も人数も管理者にだけ返す
+    if (!isAdmin) return json({});
     const entries = await all(store);
     await backfillLine(store, entries);
-    // 一覧の中身は管理者にだけ返す。一般には人数のみ
-    return json(isAdmin ? { count: entries.length, entries } : { count: entries.length, entries: [] });
+    return json({ count: entries.length, entries });
   }
 
   if (req.method === "POST") {
