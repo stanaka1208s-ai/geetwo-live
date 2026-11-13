@@ -61,8 +61,8 @@ export default async (req) => {
   if (req.method === "GET") {
     const entries = await all(store);
     await backfillLine(store, entries);
-    // 一覧は全員に返す。LINEの名前だけは管理者にのみ返す
-    return json({ count: entries.length, entries: isAdmin ? entries : entries.map(({ line, ...rest }) => rest) });
+    // 一覧は全員に返す (名前・LINEの名前・コメント)
+    return json({ count: entries.length, entries });
   }
 
   if (req.method === "POST") {
