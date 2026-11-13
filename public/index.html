@@ -190,6 +190,11 @@ h1 span{text-shadow:0 0 18px rgba(255,255,255,.45),0 3px 0 #000;animation:neon 2
 .career{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px;max-width:640px}
 .career li{display:grid;grid-template-columns:66px minmax(0,1fr);gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;font-size:17px;line-height:1.55}
 .career b{font-family:var(--f-poster);font-weight:400;font-size:26px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.sub3{font-family:var(--f-display);font-weight:900;font-size:19px;letter-spacing:.04em;color:var(--pink);margin:4px 0 10px}
+.stages{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px;max-width:640px}
+.stages li{position:relative;padding-left:20px;font-size:17px;line-height:1.55}
+.stages li::before{content:"";position:absolute;left:2px;top:.62em;width:9px;height:7px;border-radius:50%;background:var(--yellow);transform:rotate(-22deg)}
+.acts{margin:0 0 20px;max-width:640px;font-size:16px;line-height:1.7;color:var(--mute)}
 .links{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:640px}
 .links a{display:flex;flex-direction:column;justify-content:center;min-height:60px;padding:10px 16px;border:2px solid var(--yellow);color:var(--yellow);font-weight:900;text-decoration:none;line-height:1.3}
 .links a::after{content:"\2197";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:21px}
@@ -318,14 +323,23 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
 
 <section class="wrap prof" aria-labelledby="h-prof">
   <h2 id="h-prof">高谷秀司 <em>PROFILE</em></h2>
-  <p class="lead">ブルースギタリスト／和琴奏者。シドニー・オペラハウスなど国内外で公演。</p>
+  <p class="lead">ブルースギターと和琴、二つの楽器を弾きこなす音楽家。国内外のステージで、ブルースと日本の音を行き来する演奏を続けています。</p>
   <ul class="career">
-    <li><b>1985</b><span>アメリカへ渡り、ラリー・カールトンらと共演</span></li>
-    <li><b>2002</b><span>マサ大家とのデュオで欧米ツアーを開始</span></li>
-    <li><b>2010</b><span>ロサンゼルスのNAMMショーに出演、豪州ツアー</span></li>
-    <li><b>2013</b><span>小川紗綾佳とユニット「RODORODO」を結成</span></li>
-    <li><b>2014</b><span>作曲家・江藤雅樹とユニット「HowZan」を結成</span></li>
+    <li><b>1985</b><span>アメリカへ渡り、ラリー・カールトン、デューク・ジョーダンと共演</span></li>
+    <li><b>2002</b><span>マサ大家と「ソウルメイツ」を組み、欧州と米国をツアー</span></li>
+    <li><b>2010</b><span>ロサンゼルスの楽器ショー「NAMM」のステージに立つ</span></li>
+    <li><b>2013</b><span>歌い手・小川紗綾佳と「RODORODO」を始動</span></li>
+    <li><b>2014</b><span>作曲家・江藤雅樹と「HowZan」を始動、翌年2月に南青山で初ライブ</span></li>
   </ul>
+  <h3 class="sub3">主な舞台と共演</h3>
+  <ul class="stages">
+    <li>シドニー・オペラハウス(日豪交流年のフェスティバル)</li>
+    <li>フランス大使館が後援する「音楽の祭日」</li>
+    <li>東京藝術大学120周年「ジャズin藝大」</li>
+    <li>尺八の人間国宝・山本邦山を迎えた「大吟醸」</li>
+    <li>デビッド・マシューズと制作したアルバム「G2 NewYork Recordings」</li>
+  </ul>
+  <p class="acts">演奏のほか、チャリティーやボランティア、古典文学や「雅」を題材にした講演・講義にも取り組んでいます。</p>
   <div class="links">
     <a href="https://www.bigmade-music.com/takatanihideshi/profile.html" target="_blank" rel="noopener">公式プロフィール<small>bigmade-music.com</small></a>
   </div>
