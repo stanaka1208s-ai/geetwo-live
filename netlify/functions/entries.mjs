@@ -39,6 +39,20 @@ async function all(store) {
   return rows.filter(Boolean).sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
 }
 
+// 一度だけ: LINEの名前の欄ができる前に申し込んだ先頭2名に、LINEの名前を入れる
+async function backfillLine(store, entries) {
+  const meta = getStore({ name: "geetwo-meta", consistency: "strong" });
+  if (await meta.get("line-backfill-1")) return;
+  const names = ["たーぼー（tabo）", "TORU UNOSE"];
+  for (let i = 0; i < names.length && i < entries.length; i++) {
+    if (!entries[i].line) {
+      entries[i].line = names[i];
+      await store.setJSON(entries[i].id, entries[i]);
+    }
+  }
+  if (entries.length >= names.length) await meta.set("line-backfill-1", "done");
+}
+
 export default async (req) => {
   const store = getStore({ name: "geetwo-entries", consistency: "strong" });
   const adminKey = Netlify.env.get("ADMIN_KEY");
@@ -46,8 +60,8 @@ export default async (req) => {
 
   if (req.method === "GET") {
     const entries = await all(store);
-    // LINEの名前は管理者にだけ返す
-    return json({ entries: isAdmin ? entries : entries.map(({ line, ...rest }) => rest) });
+    await backfillLine(store, entries);
+    return json({ entries });
   }
 
   if (req.method === "POST") {
