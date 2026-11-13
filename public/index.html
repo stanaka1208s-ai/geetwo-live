@@ -220,7 +220,7 @@ h1 span{text-shadow:0 0 18px rgba(255,255,255,.45),0 3px 0 #000;animation:neon 2
 .lineup dd span small{font-weight:700;color:var(--mute);font-size:15px;margin-left:4px}
 .venue p{margin:0 0 8px;font-size:17px}
 .venue strong{font-family:var(--f-display);font-weight:400;font-size:22px}
-footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;padding:16px 0 28px}
+footer{color:var(--paper);font-size:14px;padding:16px 0 28px}
 
 @media (min-width:761px){
   .hero img{height:clamp(220px,26vw,360px);object-fit:cover;object-position:20% 20%}
@@ -371,7 +371,7 @@ footer{border-top:1px solid var(--line);color:var(--paper);font-size:14px;paddin
 
 <div class="bar" id="bar"><span class="n" id="bar-n" hidden><b id="bar-count">–</b>名 参加</span><button type="button" id="bar-go">申し込む</button></div>
 
-<footer><div class="wrap">このページは参加者とりまとめ用の申し込みページです。会場公式の予約ページではありません。</div></footer>
+<footer aria-hidden="true"></footer>
 
 <script>
 /* 音: 弦をはじく音を合成 (Karplus-Strong)。最初のタップ以降に有効 */
