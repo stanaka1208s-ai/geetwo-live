@@ -153,6 +153,8 @@ body.pub .panel{position:relative;top:auto}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.05)}}
 .now{display:inline-block;transform-origin:left center}
 .off{position:absolute;right:-8px;top:-14px;width:58px;height:58px;border-radius:50%;background:var(--pink);color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--f-poster);font-size:15px;line-height:1.05;letter-spacing:.04em;transform:rotate(12deg);box-shadow:0 3px 0 #000}
+.del.edit{border-color:var(--yellow);color:var(--yellow);padding:4px 12px;font-size:14px}
+.del.edit:hover{background:var(--yellow);color:#111;border-color:var(--yellow)}
 /* stage lighting */
 .hero::before{content:"";position:absolute;inset:-10% -45%;z-index:1;pointer-events:none;mix-blend-mode:screen;
   background:radial-gradient(ellipse 16% 85% at 42% 0%,rgba(255,238,170,.62),transparent 70%),radial-gradient(ellipse 12% 80% at 66% 0%,rgba(255,63,156,.38),transparent 70%);
@@ -309,7 +311,7 @@ footer{color:var(--paper);font-size:14px;padding:16px 0 28px}
     <h2 id="h-form">申し込みフォーム <em>ENTRY</em></h2>
 
     <form id="entry-form" novalidate>
-      <p>お名前・LINEの名前・コメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。入力した内容は参加者一覧に表示されます。</p>
+      <p>お名前・LINEの名前・コメントだけで申し込み完了です。メールアドレスは不要です。参加される方はお一人ずつご入力ください。入力した内容は参加者一覧に表示されます。申し込み後も、同じ端末からなら内容を修正できます。</p>
       <label for="f-name">お名前</label>
       <input type="text" id="f-name" name="name" maxlength="40" autocomplete="name" placeholder="例:山田 太郎" required>
       <label for="f-line">LINEの名前<small>LINEで表示されているお名前</small></label>
@@ -318,6 +320,7 @@ footer{color:var(--paper);font-size:14px;padding:16px 0 28px}
       <textarea id="f-comment" name="comment" maxlength="140" placeholder="例:株式会社〇〇"></textarea>
       <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button class="btn" id="f-submit" type="submit">この内容で申し込む</button>
+      <button class="btn ghost" id="f-cancel" type="button" hidden>修正をやめる</button>
       <p class="msg" id="f-msg" role="alert"></p>
     </form>
 
@@ -328,6 +331,7 @@ footer{color:var(--paper);font-size:14px;padding:16px 0 28px}
         <div class="t-no"><i>No.</i><em id="t-no">–</em></div>
       </div></div>
       <p>お申し込みを受け付けました。参加者一覧に反映されています。当日、会場でお待ちしています。</p>
+      <button class="btn ghost" id="fix" type="button">入力内容を修正する</button>
       <button class="btn ghost" id="again" type="button">続けて別の方を申し込む</button>
     </div>
   </section>
@@ -473,7 +477,7 @@ window.Snd=(function(){
   var form=$('entry-form'), nameEl=$('f-name'), lineEl=$('f-line'), cmtEl=$('f-comment'), btn=$('f-submit'), msg=$('f-msg');
   var done=$('done'), doneWho=$('done-who');
 
-  var total=0, lastId=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
+  var total=0, lastId=null, lastEntry=null, db=null, isOwner=false, readOnly=false, entries=[], seen=null, justAdded=null, loadTimer=null;
 
   function pad(n){ n=String(n); return n.length<3 ? ('00'+n).slice(-3) : n; }
   function fmt(iso){
@@ -481,6 +485,19 @@ window.Snd=(function(){
     return (d.getMonth()+1)+'/'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+' 受付';
   }
 
+  var mine={}; try{ mine=JSON.parse(localStorage.getItem('geetwo-mine')||'{}')||{}; }catch(e){ mine={}; }
+  function keepMine(){ try{ localStorage.setItem('geetwo-mine',JSON.stringify(mine)); }catch(e){} }
+  var editId=null;
+  function startEdit(e){
+    editId=e.id; done.hidden=true; form.hidden=false;
+    nameEl.value=e.name; lineEl.value=e.line||''; cmtEl.value=e.comment||'';
+    $('h-form').firstChild.textContent='申し込み内容の修正 '; btn.textContent='この内容で修正する'; $('f-cancel').hidden=false; msg.textContent='';
+    $('h-form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function endEdit(){
+    editId=null; $('h-form').firstChild.textContent='申し込みフォーム '; btn.textContent='この内容で申し込む'; $('f-cancel').hidden=true;
+    nameEl.value=''; lineEl.value=''; cmtEl.value='';
+  }
   function render(){
     countEl.textContent = total; $('bar-count').textContent = total;
     listEl.textContent='';
@@ -497,6 +514,11 @@ window.Snd=(function(){
       if(e.comment){ var c=document.createElement('div'); c.className='cmt'; c.textContent=e.comment; body.appendChild(c); }
       var meta=document.createElement('div'); meta.className='meta';
       var t=document.createElement('span'); t.textContent=fmt(e.createdAt); meta.appendChild(t);
+      if(mine[e.id] || adminKey){
+        var ed=document.createElement('button'); ed.type='button'; ed.className='del edit'; ed.textContent='修正する';
+        ed.addEventListener('click',function(){ startEdit(e); });
+        meta.appendChild(ed);
+      }
       if(adminKey){
         var del=document.createElement('button'); del.type='button'; del.className='del'; del.textContent='削除';
         del.addEventListener('click',function(){
@@ -505,7 +527,7 @@ window.Snd=(function(){
           del.disabled=true;
           api('DELETE',null,'?id='+encodeURIComponent(e.id),{'x-admin-key':adminKey}).then(load).catch(function(){ del.disabled=false; del.textContent='削除できませんでした'; });
         });
-        meta.appendChild(del);
+        del.style.marginLeft='0'; meta.appendChild(del);
       }
       body.appendChild(meta);
       li.appendChild(no); li.appendChild(body); listEl.appendChild(li);
@@ -547,6 +569,11 @@ window.Snd=(function(){
     }
     tickCd(); setInterval(tickCd,1000);
   })();
+  $('f-cancel').addEventListener('click',function(){ endEdit(); msg.textContent=''; });
+  $('fix').addEventListener('click',function(){
+    for(var q=0;q<entries.length;q++){ if(entries[q].id===lastId){ startEdit(entries[q]); return; } }
+    if(lastEntry) startEdit(lastEntry);
+  });
   $('again').addEventListener('click',function(){
     done.hidden=true; form.hidden=false; nameEl.value=''; lineEl.value=''; cmtEl.value=''; msg.textContent=''; nameEl.focus();
   });
@@ -573,10 +600,27 @@ window.Snd=(function(){
     var name=nameEl.value.replace(/\s+/g,' ').trim();
     var comment=cmtEl.value.trim();
     if(!name){ msg.textContent='お名前を入力してください。'; nameEl.focus(); return; }
+    var lineV=lineEl.value.replace(/\s+/g,' ').trim().slice(0,40);
+    if(editId){
+      var eid=editId; btn.disabled=true; btn.textContent='送信中…'; msg.textContent='';
+      api('PUT',{id:eid,token:mine[eid]||'',name:name.slice(0,40),line:lineV,comment:comment.slice(0,140)},'',adminKey?{'x-admin-key':adminKey}:null)
+        .then(function(){ btn.disabled=false; endEdit(); msg.textContent='修正しました。'; msg.style.color='var(--yellow)'; setTimeout(function(){ msg.textContent=''; msg.style.color=''; },4000); return load(); })
+        .catch(function(err){
+          btn.disabled=false; btn.textContent='この内容で修正する'; var code=err && err.code;
+          if(code==='forbidden'){ msg.textContent='この端末からは修正できません。申し込んだときと同じ端末・同じブラウザで開いてください。'; }
+          else if(code==='not_found'){ msg.textContent='この申し込みは見つかりませんでした。'; }
+          else if(code==='name_required'){ msg.textContent='お名前を入力してください。'; }
+          else { msg.textContent='修正を送信できませんでした。通信状況を確認して、もう一度お試しください。'; }
+        });
+      return;
+    }
     btn.disabled=true; btn.textContent='送信中…'; msg.textContent='';
     save({name:name.slice(0,40), line:lineEl.value.replace(/\s+/g,' ').trim().slice(0,40), comment:comment.slice(0,140), website:$('f-website').value})
       .then(function(ref){
-        lastId=ref && ref.id; $('t-no').textContent=(ref && ref.no) ? pad(ref.no) : '–'; load().catch(function(){});
+        lastId=ref && ref.id; $('t-no').textContent=(ref && ref.no) ? pad(ref.no) : '–';
+        if(ref && ref.id && ref.token){ mine[ref.id]=ref.token; keepMine(); }
+        lastEntry={id:lastId,name:name.slice(0,40),line:lineV,comment:comment.slice(0,140)};
+        load().catch(function(){});
         btn.disabled=false; btn.textContent='この内容で申し込む';
         try{ localStorage.setItem('geetwo-last-name',name); }catch(e){}
         showDone(name);

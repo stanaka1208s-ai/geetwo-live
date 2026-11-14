@@ -1,5 +1,8 @@
 // 申し込みの保存・一覧・削除 (Netlify Blobs) + Googleスプレッドシート連携
 import { getStore } from "@netlify/blobs";
+import { createHash, randomBytes } from "node:crypto";
+
+const sha = (v) => createHash("sha256").update(String(v)).digest("hex");
 
 const MAX = 500;
 const json = (body, status = 200) =>
@@ -62,7 +65,7 @@ export default async (req) => {
     const entries = await all(store);
     await backfillLine(store, entries);
     // 一覧は全員に返す (名前・LINEの名前・コメント)
-    return json({ count: entries.length, entries });
+    return json({ count: entries.length, entries: entries.map(({ th, ...rest }) => rest) });
   }
 
   if (req.method === "POST") {
@@ -86,10 +89,35 @@ export default async (req) => {
     if (blobs.length >= MAX) return json({ error: "full" }, 409);
     const createdAt = new Date().toISOString();
     const id = createdAt.replace(/[^0-9]/g, "") + "-" + Math.random().toString(36).slice(2, 8);
-    const entry = { id, name, line, comment, createdAt };
+    // 本人だけが後から修正できるよう、合い鍵を発行する (保存するのはハッシュのみ)
+    const token = randomBytes(24).toString("base64url");
+    const entry = { id, name, line, comment, createdAt, th: sha(token) };
     await store.setJSON(id, entry);
     await toSheet([entry]);
-    return json({ ok: true, id, no: blobs.length + 1 });
+    return json({ ok: true, id, no: blobs.length + 1, token });
+  }
+
+  // 修正: 申し込んだ本人 (合い鍵を持つ端末) か管理者のみ
+  if (req.method === "PUT") {
+    let body;
+    try { body = await req.json(); } catch { return json({ error: "bad_request" }, 400); }
+    const id = String(body.id || "");
+    if (!/^[0-9]+-[a-z0-9]+$/.test(id)) return json({ error: "bad_request" }, 400);
+    const entry = await store.get(id, { type: "json" });
+    if (!entry) return json({ error: "not_found" }, 404);
+    const own = !!entry.th && !!body.token && sha(body.token) === entry.th;
+    if (!own && !isAdmin) return json({ error: "forbidden" }, 403);
+    const name = clean(body.name, 40);
+    if (!name) return json({ error: "name_required" }, 400);
+    entry.name = name;
+    entry.line = clean(body.line, 40);
+    entry.comment = clean(body.comment, 140);
+    entry.updatedAt = new Date().toISOString();
+    entry.rev = (entry.rev || 0) + 1;
+    await store.setJSON(id, entry);
+    // スプレッドシートには修正の記録として1行追加する
+    await toSheet([{ id: `${id}-r${entry.rev}`, name: entry.name, line: entry.line, comment: `【修正】${entry.comment}`, createdAt: entry.updatedAt }]);
+    return json({ ok: true });
   }
 
   if (req.method === "DELETE") {
